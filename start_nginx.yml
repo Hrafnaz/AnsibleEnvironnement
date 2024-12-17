@@ -1,0 +1,16 @@
+---
+- name: start Nginx and expose a port
+  hosts: node
+  become: yes
+  tasks:
+    - name: Configure Nginx to listen to 8080 port
+      lineinfile:
+        path: /etc/nginx/sites-available/default
+        regexp: 'listen 80 default_server;'
+        line: 'listen 8080 default_server;'
+        backup: yes
+ 
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
